@@ -1,0 +1,70 @@
+
+#topbar
+{
+	text-align: center;
+	border: 1px solid tan;
+	margin: 3px;
+}
+
+
+body
+{
+	font-family: arial;
+	font-size: 10px;
+	background-color: black;
+
+	/*display: flex;
+	flex:1 1 auto;	
+	flex-flow: column nowrap;
+	justify-content:center;
+	align-items:center;*/
+}
+
+#frame
+{
+	border: 1px solid lime;
+	padding: 7px;
+
+	display: flex;
+	/*align-content:center;
+	flex:; 1 1 0;*/
+	/*align-items:center;*/
+
+}
+
+.flexbox
+{
+	
+	border: 1px solid pink;
+	/*padding: 7px;*/
+	max-height: 768px;
+	/*margin: auto;*/
+
+
+	display: flex;
+
+	flex: 0 1 auto;
+	flex-flow: column wrap;
+	align-items:center;
+	/*justify-content:center;*/
+	align-content: center;
+	/*align-self:flex-start;*/
+	margin: 0px;
+}
+
+.flexbox > div
+{
+	background-color: grey;
+	width: 128px;
+	height: 64px;
+	margin: 3px;
+
+}
+
+#world
+{
+	height: 768px;
+	width: 256px;
+	background-color: grey;
+
+}

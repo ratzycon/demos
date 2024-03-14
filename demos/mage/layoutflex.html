@@ -1,0 +1,65 @@
+<!DOCTYPE html> 
+	<head> 
+		
+		<title>flex layout</title>
+
+		<meta charset="utf-8" />
+
+		<link rel="stylesheet" type="text/css" href="styles/flexstyle.css" />
+		<script type="text/javascript">
+
+		function init(){
+			//createItems(3);
+		}
+		function createItems(num){
+			for(var i=0;i<num;i++)
+				addItem();
+		}
+		function addItem(itype)
+		{
+			var items = document.getElementById("items");
+			var item = document.createElement('div');
+			item.setAttribute("itype", itype);
+			items.appendChild(item);
+		}
+
+		function setSpell(item){
+			item.setAttribute("itype", "spell");
+		}
+		function setMonster(item){
+			item.setAttribute("itype", "spell");
+		}
+		function clearItems(){
+			document.getElementById("items").innerHTML = "";
+		}
+		</script>
+
+	</head> 
+
+	<body onload="init()"> 
+		
+		<!-- <div id="outer"> -->
+			<div id="topbar">
+				<button onclick='addItem("generic")'>add item</button>
+				<button onclick='addItem("spell")'>add spell</button>
+				<button onclick='addItem("monster")'>add monster</button>
+				<button onclick='clearItems()'>clear items</button>
+				<a href="http://www.chaos-arcane.com">http://www.chaos-arcane.com</a>
+			</div>
+
+			<div id="frame">
+
+				<div id="items" class="container"></div>
+				<div id="world"></div>
+				<div id="actionbar"></div>
+
+			</div>
+
+		<!-- </div> -->
+			
+	</body> 
+
+</html>
+
+
+

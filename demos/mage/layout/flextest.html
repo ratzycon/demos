@@ -1,0 +1,53 @@
+<!DOCTYPE html> 
+	<head> 
+		
+		<title>flex layout</title>
+
+		<meta charset="utf-8" />
+
+		<link rel="stylesheet" type="text/css" href="flextest.css" />
+		<script type="text/javascript">
+
+		function init(){
+			//createItems(3);
+		}
+		function createItems(num){
+			for(var i=0;i<num;i++)
+				addItem();
+		}
+		function addItem(itype)
+		{
+			var items = document.getElementById("items");
+			var item = document.createElement('div');
+			items.appendChild(item);
+		}
+
+		function clearItems(){
+			document.getElementById("items").innerHTML = "";
+		}
+		</script>
+
+	</head> 
+
+	<body onload="init()"> 
+		
+		<div id="topbar">
+			<button onclick='addItem("generic")'>add item</button>
+			<button onclick='clearItems()'>clear items</button>
+		</div>
+
+		<div id="frame">
+		<!-- <div  class="container2"></div> -->
+
+			<div id="items" class="flexbox"></div>
+			<div id="world"></div>
+		<!-- 	<div id="actionbar"></div> -->
+
+		</div>
+			
+	</body> 
+
+</html>
+
+
+

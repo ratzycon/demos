@@ -1,0 +1,128 @@
+
+#topbar{
+	text-align: center;
+	border: 1px solid tan;
+	margin: 3px;
+}
+
+/*#outer{
+	display: flex;
+	flex:1 1 auto;
+	flex-flow: row nowrap;
+	justify-content:center;
+	align-items:center;
+}*/
+
+
+.container > div
+{
+	padding: 0px 3px 0px 3px;
+	text-align: right;
+	border: 2px inset grey;
+	width: 128px;
+	height: 64px;
+	margin: 3px;
+
+	/*flex: 0 0 0;*/
+}
+.container > div:after
+{
+	content:attr(itype);
+}
+
+.container > div[itype^="spell"]{
+	background: url(../img/arcanesymbol1.png) no-repeat;
+}
+.container > div[itype^="monster"]{
+	background: url(../img/wraith.png) no-repeat;
+}
+
+a[href^="http"] {
+   background: url(../img/arcanesymbol1.png) no-repeat;
+   padding-left: 3px;
+}
+
+
+
+body{
+	font-family: arial;
+	font-size: 10px;
+
+	display: flex;
+	/*-webkit-flex:1 1 auto;*/
+	flex:1 1 auto;	
+	flex-flow: column nowrap;
+	justify-content:center;
+	align-items:center;
+	align-content: center;
+}
+
+#frame
+{
+	border: 1px solid tan;
+	padding: 13px;
+	margin: 3px;
+
+	display: flex;
+	/*-webkit-flex:1 1 auto;*/
+	flex: 1 1 auto;
+	flex-flow: row nowrap;
+	/*justify-content:center;*/
+	/*align-items:flex-end;*/
+	align-items:flex-start;
+	/*align-items:center;*/
+	justify-content:center;
+	align-content: center;
+}
+
+.container
+{
+	border: 1px solid grey;
+	/*padding: 7px;*/
+	max-height: 768px;
+	/*max-width: 256px;*/
+
+	margin: 3px;
+
+	
+	display: flex;
+	flex: 1 1 0;
+	
+	flex-flow: column wrap;
+
+/*	flex-pack:flex-end;
+	align-items:flex-end;
+	justify-content:flex-end;
+	align-content: flex-end;
+	item-align:flex-end;*/
+
+	/*flex-pack:center;*/
+	align-items:center;
+	justify-content:center;
+	align-content: center;
+	item-align:center;
+}
+
+#world
+{
+	width:768px;
+	height: 768px;
+	border: 1px solid grey;
+	padding: 7px;
+	margin: 3px;
+	min-width: 768px;
+
+	/*display: flex;
+	flex:0 0 0;*/
+}
+
+#actionbar{
+	width:448px;
+	border: 1px solid grey;
+	padding: 7px;
+	margin: 3px;
+	min-width: 448px;
+
+	/*display: flex;
+	flex: 0 0 0;*/
+}

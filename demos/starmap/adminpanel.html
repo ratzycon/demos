@@ -1,0 +1,125 @@
+<!DOCTYPE html> 
+	<head> 
+		
+		<title>obsidian.admin</title>
+
+		<meta charset="utf-8" />
+
+		<link rel="stylesheet" type="text/css" href="styles/style1.css" />
+
+		<script type="text/javascript" src="libs/three.js/three.min.js"></script>
+		<script type="text/javascript" src="libs/three.js/stats.min.js"></script>
+
+		<script type="text/javascript" src="libs/three.js/shaders/CopyShader.js"></script>
+		<script type="text/javascript" src="libs/three.js/shaders/ConvolutionShader.js"></script>
+		<script type="text/javascript" src="libs/three.js/shaders/BlendShader.js"></script>
+	
+		<script type="text/javascript" src="libs/three.js/postprocessing/DotScreenShader.js"></script>
+		<script type="text/javascript" src="libs/three.js/postprocessing/BloomPass.js"></script>
+		<script type="text/javascript" src="libs/three.js/postprocessing/EffectComposer.js"></script>
+		<script type="text/javascript" src="libs/three.js/postprocessing/ShaderPass.js"></script>
+		<script type="text/javascript" src="libs/three.js/postprocessing/MaskPass.js"></script>
+		<script type="text/javascript" src="libs/three.js/postprocessing/RenderPass.js"></script>
+		<script type="text/javascript" src="libs/three.js/Controls/OrbitControls.js"></script>
+
+		<script type="text/javascript" src="libs/tween.min.js"></script>
+
+		
+		<script type="text/javascript" src="js/postprocessing.js"></script>
+
+		
+	</head> 
+
+	<body> 
+
+
+
+	<script type="text/javascript">
+		var pclick = function(){document.getElementById('sfx_click').play();}
+	</script>
+
+	<audio id="sfx_click">
+		<source src="audio/screen2.wav"></source>
+	</audio>
+
+
+	<div id="interface">
+
+	
+	<details>
+	<summary>admin</summary>
+
+	<details onmousedown="pclick()">
+		<summary>lobby</summary>
+		<ul>
+			<li>master server ip: 0.0.0.0</a></li>
+			<li>players in lobby: 0</a></li>
+		</ul>
+	</details>
+
+
+	<details onmousedown="pclick()">
+		<summary>game</summary>
+		<ul  type="square">
+			<li><a href="character.html">new character</a></li>
+			<!-- <li><input type="color" name="favcolor"></li> -->
+			<li><input type="range" name="points" min="0" max="255">. shield</li>
+			<li><input type="range" name="points" min="0" max="255">. armor</li>
+			<li><input type="range" name="points" min="0" max="255">. structure</li>
+		</ul>
+
+	</details>
+
+	<details onmousedown="pclick()">
+		<summary>world</summary>
+
+		<ul>
+			
+			<li>
+				<details onmousedown="pclick()">
+					<summary>generator</summary>
+					<ul>
+						<li>entry</li>
+						<li>entry</li>
+						<li>entry</li>
+					</ul>
+				</details>
+			</li>
+
+
+
+
+			<!-- <li><meter value="5" max="10"></meter></li>
+			<li><progress value="50" max="100"></progress></li> -->
+		</ul>
+	</details>
+
+	<details onmousedown="pclick()">
+		<summary>character</summary>
+		<ul>
+			<li><a href="newcharacter.html">new character</a></li>
+			<li><a href="newcharacter.html">new character</a></li>
+			<li><a href="newcharacter.html">new character</a></li>
+			<li><a href="character.html">3: itania</a></li>
+		</ul>
+	</details>
+
+	<details onmousedown="pclick()">
+		<summary>empty</summary>
+		<ul>
+			<li>entry</li>
+		</ul>
+	</details>
+
+	</details> 
+
+	</div> 
+
+	<div id="webgl_surface"></div>
+
+	<script type="text/javascript" src="js/world.js"></script>
+
+
+	</body> 
+
+</html>

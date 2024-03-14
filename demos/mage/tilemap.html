@@ -1,0 +1,312 @@
+<!DOCTYPE html> 
+	<head> 
+		
+		<title>obsidian proto</title>
+
+		<meta charset="utf-8" />
+
+		<link rel="stylesheet" type="text/css" href="styles/style2.css" />
+
+		<!-- libs -->
+		<script src="libs/jquery-2.1.0.min.js"></script>
+
+		<script src="scripts/mathx.js"></script>
+		<script src="scripts/eventsystem.js"></script>
+		<script src="scripts/resources.js"></script>
+		<script src="tileengine.js"></script>
+		<script src="scripts/los.js"></script>
+		
+	</head> 
+
+	<body> 
+
+		<audio id="sfx_step"><source src="audio/step.wav"/></audio>	
+		<audio id="sfx_spell"><source src="audio/spell.wav"/></audio>
+		<audio id="sfx_wall"><source src="audio/wall.wav"/></audio>
+
+		<!-- <div id='gradientbg'></div> -->
+
+		<h1>OBSIDIAN</h1>
+
+		<div id="outerframe">
+			<div id="frame">
+
+				<div id='sidebar'>
+
+				
+					<div class="avatar">
+
+						<div style="width:auto; margin:3px;font-family:'arial'; font-size: 10px;text-align:center;background-color:black;border-radius: 7px 1px 7px 1px;">player</div>
+						
+						<div style="display:inline-block;">
+
+							<div class="portrait av1 friendly"></div>
+
+							<div style="float:left;width:33px;margin:3px;background-color:black;padding:3px;">
+								<div style="width:auto; margin:1px;font-family:'arial'; font-size: 10px;text-align:center;">lvl 7</div>
+								<div style="width:auto; height:3px; background-color:lime; margin:1px;"></div>
+								<div style="width:auto; height:3px; background-color:cyan; margin:1px;"></div>
+								<div style="width:auto; margin-top:1px;font-family:'arial'; font-size: 19px;text-align:center;">3</div>
+								<div style="width:auto; margin:0px;font-family:'arial'; font-size: 10px;text-align:center;">ap</div>
+							</div>
+
+						</div>
+
+					</div>
+
+
+					
+					<div class="avatar">
+
+						<div style="width:auto; margin:3px;font-family:'arial'; font-size: 10px;text-align:center;background-color:black;border-radius: 7px 1px 7px 1px;">wraith</div>
+						
+						<div style="display:inline-block;">
+
+							<div class="portrait av2 hostile"></div>
+
+							<div style="float:left;width:33px;margin:3px;background-color:black;padding:0px;">
+								<div style="width:auto; margin:1px;font-family:'arial'; font-size: 10px;text-align:center;">lvl 7</div>
+								<div style="width:auto; height:3px; background-color:lime; margin:1px;"></div>
+								<div style="width:auto; height:3px; background-color:cyan; margin:1px;"></div>
+								<div style="width:auto; margin-top:1px;font-family:'arial'; font-size: 19px;text-align:center;">3</div>
+								<div style="width:auto; margin:0px;font-family:'arial'; font-size: 10px;text-align:center;">ap</div>
+							</div>
+
+						</div>
+
+					</div>
+
+					<div class="avatar">
+
+						<div style="width:auto; margin:3px;font-family:'arial'; font-size: 10px;text-align:center;background-color:black;border-radius: 7px 1px 7px 1px;">wraith</div>
+						
+						<div style="display:inline-block;">
+
+							<div class="portrait av2 hostile"></div>
+
+							<div style="float:left;width:33px;margin:3px;background-color:black;padding:0px;">
+								<div style="width:auto; margin:1px;font-family:'arial'; font-size: 10px;text-align:center;">lvl 7</div>
+								<div style="width:auto; height:3px; background-color:lime; margin:1px;"></div>
+								<div style="width:auto; height:3px; background-color:cyan; margin:1px;"></div>
+								<div style="width:auto; margin-top:1px;font-family:'arial'; font-size: 19px;text-align:center;">3</div>
+								<div style="width:auto; margin:0px;font-family:'arial'; font-size: 10px;text-align:center;">ap</div>
+							</div>
+
+						</div>
+
+					</div>
+
+					<div class="avatar">
+
+						<div style="width:auto; margin:3px;font-family:'arial'; font-size: 10px;text-align:center;background-color:black;border-radius: 7px 1px 7px 1px;">wraith</div>
+						
+						<div style="display:inline-block;">
+
+							<div class="portrait av2 hostile"></div>
+
+							<div style="float:left;width:33px;margin:3px;background-color:black;padding:0px;">
+								<div style="width:auto; margin:1px;font-family:'arial'; font-size: 10px;text-align:center;">lvl 7</div>
+								<div style="width:auto; height:3px; background-color:lime; margin:1px;"></div>
+								<div style="width:auto; height:3px; background-color:cyan; margin:1px;"></div>
+								<div style="width:auto; margin-top:1px;font-family:'arial'; font-size: 19px;text-align:center;">3</div>
+								<div style="width:auto; margin:0px;font-family:'arial'; font-size: 10px;text-align:center;">ap</div>
+							</div>
+
+						</div>
+
+					</div>
+
+					<!-- test avatars -->
+					<script type="text/customcode" id="avatartemplate">
+					<div class="avatar">
+						<div style="width:auto; margin:3px;font-family:'arial'; font-size: 10px;text-align:center;background-color:black;border-radius: 7px 1px 7px 1px;">wraith</div>
+						
+						<div style="display:inline-block;">
+
+							<div class="portrait av2 hostile"></div>
+
+							<div style="float:left;width:33px;margin:3px;background-color:black;padding:0px;">
+								<div style="width:auto; margin:1px;font-family:'arial'; font-size: 10px;text-align:center;">lvl 7</div>
+								<div style="width:auto; height:3px; background-color:lime; margin:1px;"></div>
+								<div style="width:auto; height:3px; background-color:cyan; margin:1px;"></div>
+								<div style="width:auto; margin-top:1px;font-family:'arial'; font-size: 19px;text-align:center;">3</div>
+								<div style="width:auto; margin:0px;font-family:'arial'; font-size: 10px;text-align:center;">ap</div>
+							</div>
+						</div>
+					</div>
+
+					</script>
+					
+
+
+					<!-- test avatars -->
+
+
+				</div> <!-- sidebar --> 
+
+				<div id='world'>
+
+					<canvas id="floorlayer" class='gamelayer floorlayer'></canvas>
+					<canvas id="detaillayer" class='gamelayer detaillayer'></canvas>
+					<canvas id="tilelayer" class='gamelayer tilelayer'></canvas>
+					<canvas id="objectlayer" class='gamelayer objectlayer'></canvas>
+	 				<canvas id="entitylayer" class='gamelayer entitylayer'></canvas>
+	 				<canvas id="effectlayer" class='gamelayer effectlayer'></canvas>
+	 				<canvas id="lightlayer" class='gamelayer lightlayer'></canvas>
+	 				<canvas id="visionlayer" class='gamelayer visionlayer'></canvas>
+	 				<canvas id="combinelayer" class='gamelayer combinelayer'></canvas>
+	 				<canvas id="uilayer" class='gamelayer uilayer'></canvas>
+
+	 				<div id="characterpanel" style="display:none;">
+
+	 					<div id="panelselectbar">
+	 						<div>skills</div>
+	 						<div>traits</div>
+	 						<div>stats</div>
+	 						<div>essence:3</div> <!-- +1 essence pr level - death: -1 essence -->
+	 					</div>
+
+	 					<div id="skills"></div>
+
+	 					<div id="traits"></div>
+
+	 				</div>
+
+
+	 			</div>
+
+	 			<!-- <div style='width:768px; height:768px;background-image:"img/sand2.jpg"; z-index:10;' class=""></div> -->
+	 			
+
+	 			<div id='sidepanel'>
+	 				
+	 				<div id='actionpanel'>
+
+	 					<div id="spellpanel">
+
+	 						<div class="tometitle"> spell tome </div>
+
+	 						<div class="spelllevelpanel"> 
+	 							<div class="spelllevelbtn">I</div>
+	 							<div class="spelllevelbtn">II</div>
+	 							<div class="spelllevelbtn">III</div>
+	 							<div class="spelllevelbtn">IV</div>
+	 							<div class="spelllevelbtn">V</div>
+	 							<div class="spelllevelbtn">VI</div>
+	 							<div class="spelllevelbtn">VII</div>
+	 						 </div>
+
+		 					<div id='spellbook'>
+		 						
+		 						<!-- <div class="power"></div> -->
+		 						<!-- <figure> -->
+		 						<img src="img/ic_spell_flamebolt1.png" class="power" />
+		 						
+		 						
+		 						<img src="img/ic_spell_symbol1.png" class="power"/>
+		 						<img src="img/ic_spell_arcane1.png" class="power"/>
+		 						<img src="img/ic_spell_cure1.png" class="power"/>
+		 						<!-- <img src="img/arcanesymbol2.png" class="power"/> -->
+		 						<!-- <figcaption>Level I spells</figcaption> -->
+		 						<!-- </figure> -->
+		 						
+
+
+		 						<!-- <figure> -->
+		 						<img src="img/ic_spell_flamebolt2.png" style="opacity:1;" class="power"/>
+		 						<img src="img/arcanesymbol1.png" class="power"/>
+		 						<img src="img/ic_spell_holy.png" class="power"/>
+		 						<img src="img/symbolsummon.png" class="power"/>
+		 						<!-- <figcaption>Level II spells</figcaption> -->
+		 						<!-- </figure> -->
+		 						
+		 						<!-- <figure> -->
+		 					
+		 						<img src="img/ic_spell_flamebolt3.png" class="power"/>
+		 						<img src="img/ic_spell_arcane3.png" class="power"/>
+		 						<img src="img/ic_spell_cure3.png" class="power"/>
+
+		 						<!-- <img src="img/emptyslot.png" class="power"/>
+		 						<img src="img/emptyslot.png" class="power"/> -->
+
+		 					<!-- 	<img style="width:64px;height:64px;" class="power"/>
+		 						<img style="width:64px;height:64px;" class="power"/> -->
+		 						
+		 						<!-- <figcaption>Level III spells</figcaption> -->
+		 						<!-- </figure> -->
+
+
+
+		 							
+
+		 						
+
+		 					</div> <!-- spellbook end	 -->
+	 					</div>
+
+
+	 					<div id='character'></div>
+	 					<div id='basicactions'></div>
+	 					<div id='settings'></div>
+	 					<div id='journal'></div>
+	 					<div id='map'></div>
+	 					<div id='items'></div>
+	 					<div id='equipment'></div>
+	 					<div id='inspect'></div>
+	 					<div id='dialogue'></div>
+	 					<div id='merchant'></div>
+	 					<div id='stash'></div>
+	 					<div id='statistics'></div>
+	 					<div id='craft'></div>
+	 				</div>
+
+	 				<div id='actionbar'>
+	 					<div class="actionbtn">weapon</div>
+	 					<div class="actionbtn">spellbook</div>
+	 					<div class="actionbtn">items</div>
+	 					<div class="actionbtn">character</div>
+	 					<div class="actionbtn">settings</div>
+	 					<!-- <div class="actionbtn"></div> -->
+	 				</div>
+
+	 				<div id='battlelogframe'>
+	 					<!-- <div id='innerframe'> -->
+	 						<div id='battlelog'></div>
+	 					<!-- </div> -->
+	 				</div>
+
+	 			</div>
+
+			</div>
+		</div>
+
+		<button onclick="addAvatar()">add avatar</button>
+
+		<script src="tilegame.js"></script>
+		<script type="text/javascript">
+		function onPageLoad(){
+			createAvatars();
+		}
+			//$.get("banner.html", function(data){$(this).children("div:first").html(data);});
+		function createAvatars(){
+			for(var i=0;i<2;i++)
+				addAvatar();
+		}
+
+		function addAvatar()
+		{
+			var avs = document.getElementById("sidebar");
+			var av = document.createElement('div');
+
+			var avdata = document.getElementById("avatartemplate").text;
+
+			av.innerHTML = avdata;
+			avs.appendChild(av);
+		}
+
+
+		</script>
+
+	</body> 
+
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<script type="text/javascript" src="libs/three.js/three.min.js"></script>
+	<script type="text/javascript" src="libs/tween.min.js"></script>
+
+	<style type="text/css">
+
+		@font-face {
+		  font-family: 'Venus Rising';
+		  src: url(‘fonts/venus_rising.ttf’);
+		  src: local('?'), 
+		  url('venus_rising.ttf') format('ttf')
+		}
+
+		@font-face {
+		  font-family: 'Bitsumishi';
+		  src: url(‘fonts/bitsumis.ttf’);
+		  src: local('?'), 
+		  url('bitsumis.ttf') format('ttf')
+		}
+
+		html{
+			height: 100%;
+			background-color: rgb(1,1,1);
+			background: -webkit-linear-gradient(rgba(77,77,77,1), rgba(233,233,233,1));
+		}
+		body 
+		{ 
+			font-family:'Bitsumishi', 'Venus Rising', Arial, sans-serif; 
+			margin: 0px; 
+			padding: 0px; 
+			overflow: hidden;
+			white-space: nowrap;
+							
+			-webkit-user-select: none;
+			/*background: -webkit-linear-gradient(rgba(77,77,77,1), rgba(222,222,222,1));*/
+			/*background-color: rgb(77,77,88);*/
+			/*background: -webkit-linear-gradient(rgba(0,0,128,.33),  rgba(222,233,244,.11), transparent);*/
+			/*background: -webkit-linear-gradient(rgba(0,0,128,.33), transparent);*/
+			/*background: -webkit-linear-gradient(rgba(177,177,177,1), black);*/
+			/*background: -webkit-linear-gradient(black, rgba(177,177,177,1));*/
+		}
+
+		#webgl
+		{ 
+			width: 100%; 
+			/*height: 333px;*/
+			/*height: 100%;*/ 
+			/*height: 400px;*/
+			z-index: -1;
+			/*position: absolute;*/
+			display: flex;
+			/*display: -webkit-inline-flex;*/
+			/*align-items: center;*/
+			
+  			/*-webkit-flex-direction: column;*/
+ 			/*-webkit-align-content: flex-start;*/
+ 			/*-webkit-align-items: center;*/
+ 			border-top: 3px;
+ 			border-bottom: 3px;
+ 			border-right: 0px;
+ 			border-left: 0px;
+ 			border-style: solid;
+ 			border-color: white;
+ 			/*-webkit-transform: rotate(-3deg);*/
+ 			box-shadow: 3px 3px 13px rgba(0,0,0,.33);
+ 			-webkit-transform: skew(0deg,-1.77deg);
+		}
+
+		#interface
+		{
+			
+			z-index: 1;
+			/*position: absolute;*/
+			display: flex;
+			/*display: -webkit-inline-flex;*/
+			align-items: center;
+			
+  			-webkit-flex-direction: row;
+ 			/*-webkit-align-content: flex-start;*/
+ 			-webkit-align-items: center;
+ 			
+ 			/*background-color: rgba(0,0,0,.3);*/
+		}
+
+		.logo
+		{
+			color: black; 
+			font-size: 77px;
+			-webkit-justify-content: center;
+			text-align: center;
+			margin: 13px;
+		}
+
+		.menu
+		{
+			-webkit-justify-content: center;
+			display: flex;
+			/*display: -webkit-inline-flex;*/
+			align-items: center;
+			
+  			-webkit-flex-direction: row;
+ 			/*-webkit-align-content: flex-start;*/
+ 			-webkit-align-items: center;
+ 			box-shadow: 3px 3px 13px rgba(0,0,0,.33);
+ 			-webkit-transform: skew(0deg,-1.77deg);
+ 			/*margin-top: 33px;*/
+ 			margin: 13px;
+ 			height: 77px;
+ 			-webkit-transition: all .777s;
+		}
+		.menu:hover{
+			background-color: white;
+			-webkit-transform: scale(1.1, 1.1);
+		}
+		.menu:active{
+			-webkit-transform: scale(.9, .9);
+			background-color: cyan;
+		}
+
+	</style>
+
+</head>
+
+<body>
+
+	<script id="vertexshader" type="x-shader/x-vertex">
+
+		varying vec4 pos;
+		varying vec4 vColor;
+
+		uniform float time;
+		//uniform int numAttractors;
+		uniform vec3 attractors[8];
+		uniform float attractorMass[8];
+		uniform float attractPower[8];
+		uniform float attractDirection[8];
+
+		vec3 calc()
+		{
+			vec3 newpos = position;
+
+			for(int i = 0; i < 8; i++){
+
+				float mass = attractorMass[i];
+				float dist = distance(position, attractors[i]);
+				float f = mass/pow(dist, attractPower[i]); 
+				f = clamp(f, 0.0, 1.0);
+
+				newpos = mix(newpos, attractors[i], attractDirection[i] * sin(time) * f);
+				//newpos += mix(position, attractors[i], attractDirection[i] * f);
+
+			}
+
+			return newpos;
+		}
+
+		void main()
+		{
+
+			vColor = vec4(1,1,1,1);
+			//vColor = vec4(0,0,0,1);
+			
+			vec3 p = calc();
+			float d = distance(position, p);
+			
+			d *= .777;
+			//vColor *= 0.1;
+			vColor.r *= d*.0137;
+			vColor.g *= d*.0371;
+			vColor.b *= d*.173;// * sin(time);
+
+			pos = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
+			vColor.r += pos.y*0.0003;
+			vColor.b += pos.y*0.0007;
+
+			gl_Position = pos;
+			gl_PointSize = 7.0 * clamp((d*d)/300.0, 0.0, 1.0);
+		}
+
+	</script>
+
+	<script id="fragmentshader" type="x-shader/x-fragment">
+
+		varying vec4 pos;
+		varying vec4 vColor;
+		/*uniform float time;*/
+
+
+		void main() {
+
+			//gl_FragColor = vec4(.88,.88,.88,1);
+			gl_FragColor = vColor;
+			/*glEnable(GL_BLEND);
+			glBlendFunc(GL_ONE, GL_ONE);*/
+			/*glBlendFunc(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);*/
+			/*gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+			gl.enable(gl.BLEND);
+			gl.disable(gl.DEPTH_TEST);*/
+		}
+
+	</script>
+
+
+	<div id='interface'>
+			<div class="logo">CORE.EXPOSED</div>
+	</div>
+
+	<div id="webgl">
+		
+		
+	</div>
+
+	<div class="menu">~</div>
+	<div class="menu">~</div>
+	<div class="menu">~</div>
+	
+	<script type="text/javascript" src="js/renderer2.js"></script>
+	<script type="text/javascript" src="js/demo3.js"></script>
+</body>
+</html>
+
+
+

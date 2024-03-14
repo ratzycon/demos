@@ -1,0 +1,203 @@
+body{
+	color: grey;
+	font-size: 87.5%; /*base is about 14 px*/
+	font-family: Arial, 'Lucida Sans Unicode';
+	line-height: 1.5;
+	text-align: left;
+}
+
+a{
+	text-decoration: none;
+}
+a:link, a:visited{
+	color: #CF5CF3;
+}
+a:hover, a:active{
+	background-color: #CF5CF3;
+	color: #FFF;
+}
+
+
+.mainbody{
+	margin: 0 auto;
+	width: 70%;
+	clear: both; /*makes container no floating left or right*/
+}
+
+.mainheader img{
+	width: 30%;
+	height: auto;
+	margin: 2% 0;
+}
+
+.mainheader nav{
+	background-color: #777;
+	height: 40px;
+	border-radius: 7px;
+}
+
+.mainheader nav ul{
+	list-style: none;
+	margin: 0 auto;
+}
+
+.mainheader nav ul li{
+	float: left;
+	display: inline;
+}
+
+.mainheader nav a:link, .mainheader nav a:visited{
+	color: #FFF;
+	display: inline-block;
+	padding: 10px 20px;
+	/*come back to set height*/
+	height: 20px;
+}
+
+.mainheader nav a:hover, .mainheader nav a:active,
+.mainheader nav .active a:link, .mainheader nav .active a:visited{
+	background-color: #CF5CF3;
+	text-shadow:none;
+	-webkit-transition:all ease .2s;
+}
+
+.mainheader nav ul li a{
+	border-radius: 7px;
+}
+
+.maincontent{
+	border-radius: 7px;
+	line-height: 25px;
+	/*overflow: hidden;*/
+}
+
+.content{
+	width: 70%;
+	float: left;
+}
+
+.topcontent{
+	background-color: #EEE;
+	border-radius: 7px;
+	padding:3% 5%;
+	margin-top: 2%;
+}
+
+
+.bottomcontent{
+	background-color: #EEE;
+	border-radius: 7px;
+	padding:3% 5%;
+	margin-top: 2%;
+}
+
+.top-sidebar{
+	width: 21%;
+	float: left;
+	background-color: #EEE;
+	border-radius: 7px;
+	margin: 2% 0 2% 3%;
+	padding: 2% 3%;
+}
+
+.middle-sidebar{
+	width: 21%;
+	float: left;
+	background-color: #EEE;
+	border-radius: 7px;
+	margin: 2% 0 2% 3%;
+	padding: 2% 3%;
+}
+
+.bottom-sidebar{
+	width: 21%;
+	float: left;
+	background-color: #EEE;
+	border-radius: 7px;
+	margin: 2% 0 2% 3%;
+	padding: 2% 3%;
+}
+
+.post-info{
+	font-style: italic;
+	color: #999;
+	font-size: 85%;
+}
+
+.mainfooter{
+	width: 100%;
+	float: left;
+	border-radius: 7px;
+	background-color: #777;
+	margin: 2% 0;
+}
+
+.mainfooter p, .mainfooter a{
+	width: 92%;
+	margin: 2% auto;
+	color: white;
+}
+
+
+/* FOR MOBILE */
+
+@media only screen and (min-width:150px) and (max-width: 600px){
+
+	.mainbody{
+		width: 90%;
+		font-size: 95%;
+	}
+
+	.mainheader img{
+		width: 100%;
+	}
+
+	.mainheader nav{
+		height: 160px;
+	}
+
+	.mainheader nav ul{
+		padding-left: 0px;
+	}
+
+	.mainheader nav ul li{
+		width: 100%;
+		text-align: center;
+	}
+
+	.mainheader nav a:link, .mainheader nav a:visited{
+		padding: 10px 25px;
+		height: 20px;
+		display: block;
+	}
+
+
+
+	.content{
+		width: 100%;
+		float: left;
+		margin-top: 2%;
+	}
+
+	.post-info{
+		display: none;
+	}
+
+	.topcontent{
+		padding:3% 5%;
+		margin-top: 3%;
+	}
+
+
+	.bottomcontent{
+
+		margin-top: 3%;
+	}
+
+	.top-sidebar, .middle-sidebar,.bottom-sidebar {
+		width: 94%;
+		margin: 2% 0 2% 0;
+		padding: 2% 3%;
+	}
+
+}

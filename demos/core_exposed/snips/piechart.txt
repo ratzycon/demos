@@ -1,0 +1,30 @@
+<svg width="100" height="100">
+<circle r="25" cx="50" cy="50" />
+</svg>
+
+
+/**
+ * Another way for pie chart style timers
+ * (CSS way: http://dabblet.com/gist/127de0e3bb8ae0bbb75b )
+ * Known bugs:
+ 		- Firefox doesn't apply the transform to the <svg> element
+ 		- Safari doesn't apply the animation (but hardcoded values work)
+ */
+
+svg {
+	transform: rotate(-90deg);
+	background: #ab4;
+	border-radius: 50%;
+}
+
+@keyframes foo {
+	to { stroke-dasharray: 158 158; }
+}
+
+circle {
+	fill: none;
+	stroke: #655;
+	stroke-width: 50;
+	stroke-dasharray: 0 158;
+	animation: foo 5s infinite linear;
+}

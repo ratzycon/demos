@@ -1,0 +1,71 @@
+@font-face { font-family: uncial; src: url('../fonts/TrajanPro-Regular.otf'); } 
+body{
+	font-family:uncial; 
+	font-size:10px;
+ 	background-color:white;
+  	
+  	padding: 0px;
+  	margin:0px;
+  	-webkit-user-select: none;
+  	background-image: url('../img/sand2.jpg');
+  /*	color: PaleGoldenRod;*/
+  	text-shadow:0px 0px 3px black;
+
+ }
+
+.input_txt{
+	background-color:white;
+	border:1px dashed;
+	border-color:lime;
+	
+	width:200px;
+	font-size:10px;
+	padding:1px;
+}
+.detail_data{
+	color:darkgrey;
+	display:inline;
+}
+textarea:focus, input:focus{ 
+	outline:none 
+} 
+
+.logmsg{
+	-webkit-transition:all 0.2s ease;
+	cursor:default;
+	/*opacity:0;*/
+}
+.logmsg:hover{
+	color:lime;
+	-webkit-transform:translatex(-7px) ;
+}
+
+.stat_panel
+{
+	/*float: left;*/
+	font-size:20px;
+	margin: 30px;
+	padding: 8px;
+	background-color: rgba(100,50,20,0.5);
+	border-radius: 8px;
+	box-shadow: 0px 0px 33px black;
+	border: 2px solid SandyBrown;
+	overflow-y: auto;
+	overflow-x: hidden;
+	width: 280px;
+}
+
+.stat_item
+{
+	/*display: inline-block;*/
+	color: red;
+	margin: 8px;
+	border: 1px solid PaleGoldenRod;
+	background-color: rgba(0,0,0,0.3);
+	width: 80%;
+	font-size: 18px;
+	padding: 8px;
+	border-radius: 4px;
+	box-shadow: 0px 0px 8px black;
+}
+

@@ -1,0 +1,114 @@
+<!DOCTYPE html> 
+<head> 
+	<meta charset="utf-8" />
+
+	
+   
+
+</head> 
+
+<title>rp system test</title>
+
+<body style="background-color:grey;"> 
+
+	<canvas id="gamecanvas" width="640" height="480" ></canvas>
+
+	<div id="delta"></div>
+
+	 <script> 
+
+	 var playerX = 0.0;
+	 var playerY = 0.0;
+	 var playerSpeed = 10.0;
+
+    document.addEventListener('keydown', checkKeyDown, false);
+
+    var canvas = document.getElementById('gamecanvas');
+  
+
+    var ctx = canvas.getContext('2d');
+
+      ctx.width = canvas.width;
+    ctx.height = canvas.height;
+
+    var img = new Image();
+    img.onload = function(){
+    	ctx.drawImage( img, playerX, playerY);
+    }
+    img.src = 'img/mage.png';
+
+    this.addEventListener('onKeyDown');
+
+   function checkKeyDown(e)
+   {
+		var keyID = e.keyCode || e.which; // or var keyID = (e.keyCode) ? e.keyCode: e.which; for multiple borwser support
+		if(keyID=== 38 || keyID===87){ //up arrow or W
+			e.preventDefault();
+			playerY-=playerSpeed;
+		}
+		if(keyID=== 39 || keyID===68){ //right arrow or D
+			e.preventDefault();
+			playerX+=playerSpeed;
+		}
+		if(keyID=== 40 || keyID===83){ //down arrow or S
+			e.preventDefault();
+			playerY+=playerSpeed;
+		}
+		if(keyID=== 37 || keyID===65){ //lef arrow or A
+			e.preventDefault();
+			playerX-=playerSpeed;
+		}
+	}
+
+	var cursorX;
+	var cursorY;
+
+	canvas.onmousemove = function(e){
+    	cursorX = e.pageX;
+    	cursorY = e.pageY;
+	}
+
+	update();
+
+	var lastUpdate = Date.now();
+	
+	function update(){
+		
+		var now = Date.now();
+    	var dt = (now - lastUpdate) * 0.001;
+    	lastUpdate = now;
+
+    	if(isNaN(dt))
+    		dt = 0;
+
+		playerX += playerSpeed * dt;
+
+		document.getElementById('delta').innerHTML = ctx.width;
+		
+    	ctx.clearRect(0,0,ctx.width, ctx.height);
+    	ctx.fillStyle = "#000000";
+    	ctx.globalCompositeOperation = "source-over";
+    	ctx.fillRect(0,0, ctx.width, ctx.height);
+
+    	
+    	
+    	ctx.drawImage( img, playerX, playerY);
+
+
+    	ctx.globalCompositeOperation = "lighter";
+    	ctx.strokeStyle = "red";
+    	ctx.lineWidth = 10;
+    	ctx.beginPath();
+    	ctx.moveTo(0,0);
+		ctx.lineTo(cursorX,cursorY);
+		ctx.stroke();
+
+    	requestAnimationFrame(update);
+		
+	}
+
+    </script> 
+
+</body> 
+
+</html>

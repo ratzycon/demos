@@ -1,0 +1,9 @@
+{
+  "name": "ws_server",
+  "description": "websocket server",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "ws": "x"
+  }
+}

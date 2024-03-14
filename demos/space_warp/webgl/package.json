@@ -1,0 +1,12 @@
+{
+  "name": "obsidian",
+  "main": "adminpanel.html",
+  "window": {
+    "toolbar": false,
+    "frame": false,
+    "resizable": true,
+    "kiosk": true,
+    "always-on-top": false//,
+    //"chromium-args": "--disable-threaded-compositing"
+  }
+}

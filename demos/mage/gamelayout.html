@@ -1,0 +1,99 @@
+<!DOCTYPE Html>
+
+<html>
+	<head>
+
+		<title>webgame</title>
+
+		<script src="libs/jquery-1.9.1.min.js"></script>
+		<script src="libs/three.min.js"></script>
+		<script src='libs/THREEx.WindowResize.js'></script>
+
+		
+		<script src="scripts/world.js"></script>
+		<script src="scripts/gamecanvas.js"></script>
+		<script src="scripts/entity.js"></script>
+		<script src="scripts/dragdrop.js"></script>
+		<script src="scripts/main.js"></script>
+		<script src="scripts/sprite.js"></script>
+		<script src="scripts/game.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="styles/mainstyle.css" />
+
+		<meta charset="utf-8" />
+
+	</head>
+
+	<body>
+
+		<audio id="sfx_click">
+			<source src="audio/click.wav"/>
+		</audio>
+
+		<div id="wrapper">
+
+			<header class='center'>
+
+				<h1>webgame title</h1>
+				<nav>
+					<button onclick="learnskill()">learn new skill</button>
+					<button onclick="resetskills()">reset skills</button>
+					<button onclick="addSkillPoints(8)">add skillpoints</button>
+					<button onclick="hideStats()">hide stats</button>
+				</nav>
+
+			</header>
+
+			<div id="frame">
+
+				<!-- <div id="canvasframe">
+					<canvas id="canvas" class='gamecanvas'>
+						
+					</canvas> 
+					
+				</div> -->
+				<img src="img/mage.png" class='player'></img>
+
+				<div id="interface">
+
+					<div id="ui_stats" class='panel floating'></div>
+
+					
+
+					<div id='log' class="log"></div>
+
+				</div>
+				
+			</div>
+
+		</div>
+	</body>
+
+	<script type="text/javascript">
+
+		 window.onload=function()
+        {
+        	 //$(function(){$("#interface").load("interface.html"); });
+        	log("window loaded..");
+        	//document.getElementById('interface').innerHTML = loadPage('interface.html');
+
+        	//initWorld();
+			//animate();
+			load();
+			initialize();
+			setupgame();
+			init();
+			startgame();
+        }
+
+
+        function hideStats(){
+        	//document.getElementById('ui_stats').style.visibility = hidden;
+        	if(document.getElementById('ui_stats').style.display == 'block')
+        		document.getElementById('ui_stats').style.display = 'none';
+        	else document.getElementById('ui_stats').style.display = 'block';
+        }
+
+		</script>
+
+</html>

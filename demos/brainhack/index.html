@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<meta charset="UTF-8"/>
+		
+		<!-- <meta name='viewport' content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui"> -->
+		<!-- <meta name='viewport' content="width=device-width, initial-scale=0.666, maximum-scale=0.666, user-scalable=no, minimal-ui"> -->
+		<meta name='viewport' content="width=device-width, initial-scale=0.666, maximum-scale=0.666, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style"content="black-translucent" />
+
+		<link rel="stylesheet" type="text/css" href="style.css"/>
+
+		<!-- 
+		<link rel="stylesheet" media="all and (device-width: 768px)" />
+		<link rel="stylesheet" media="all and (max-device-width: 767px) and (min-device-width: 641px)" href="css/device-max767.css"/>
+		<link rel="stylesheet" media="all and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 1)"    href="css/phones.css"/>
+		<link rel="stylesheet" media="all and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)"    href="css/phones.css"/> -->
+
+		<script type="text/javascript" src="audio.js"></script>
+
+	</head>
+
+	<body>
+
+		<div id="gameframe">
+
+			<div id="screens">
+
+				<div id="game" class="frame">
+
+					<div id="topbar">
+						<div id="points" data-points="0">score: </div>
+						<div id="lives"></div>
+					</div>
+					
+					<div id="settings"></div>
+					<div id="gems"></div>
+					
+				</div>
+
+				<div id="menu" class="frame">
+
+					<div id="gametitle">**BRAINHACK**</div>
+
+					<div id="menubuttons">
+						<div class="button" onclick="game()">new game</div>
+						<div class="button" onclick="hiscore()">hiscore</div>
+						<!-- <div onclick="options()">options</div> -->
+						<div class="button" onclick="quit()">quit</div>
+					</div>
+
+				</div>
+
+				<div id="hiscore" class="frame">
+					<div class="button" onclick="menu()">back to menu</div>
+				</div>
+
+			</div>
+
+		</div>
+
+		<script type="text/javascript" src="game.js"></script>
+
+	</body>
+</html>

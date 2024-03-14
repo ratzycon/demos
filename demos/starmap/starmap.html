@@ -1,0 +1,178 @@
+<!DOCTYPE html> 
+<html>
+	<head> 	
+		<title>obsidian.starmap</title>
+
+		<meta charset="utf-8" />
+
+		<link rel="stylesheet" type="text/css" href="styles/style1.css" />
+
+		<script type="text/javascript" src="libs/three.js/three.min.js"></script>
+		<!-- <script type="text/javascript" src="libs/three.js/three64.js"></script> -->
+		<!-- <script type="text/javascript" src="libs/three.js/three64_num.js"></script> -->
+
+		<script type="text/javascript" src="libs/three.js/stats.min.js"></script>
+		<script type="text/javascript" src="libs/three.js/ImprovedNoise.js"></script>
+
+		<script type="text/javascript" src="libs/three.js/shaders/CopyShader.js"></script>
+		<script type="text/javascript" src="libs/three.js/shaders/ConvolutionShader.js"></script>
+		<script type="text/javascript" src="libs/three.js/shaders/BlendShader.js"></script>
+
+		<script type="text/javascript" src="libs/three.js/postprocessing/DotScreenShader.js"></script>
+		<script type="text/javascript" src="libs/three.js/postprocessing/BloomPass.js"></script>
+		<script type="text/javascript" src="libs/three.js/postprocessing/EffectComposer.js"></script>
+		<script type="text/javascript" src="libs/three.js/postprocessing/ShaderPass.js"></script>
+		<script type="text/javascript" src="libs/three.js/postprocessing/MaskPass.js"></script>
+		<script type="text/javascript" src="libs/three.js/postprocessing/RenderPass.js"></script>
+		<script type="text/javascript" src="libs/three.js/effects/OculusRiftEffect.js"></script>
+
+		<script type="text/javascript" src="libs/tween.min.js"></script>
+		
+	</head> 
+
+	<body> 
+
+		<script type="text/javascript">
+			var pclick = function(){document.getElementById('sfx_click').play();}
+		</script>
+
+		<audio id="sfx_click">
+			<source src="audio/screen2.wav"></source>
+		</audio>
+
+
+		<div id="webgl_surface">
+			
+			<div id="world_ui"></div>
+
+			<div id="interface">
+
+				
+
+				<div  class=" commandbar darkpanel">
+					
+					<div class="panel uibutton">game</div>
+					<div class="panel uibutton">galaxy</div>
+					<div class="panel uibutton">overview</div>
+					<div class="panel uibutton" onclick="onTrade()">trade</div>
+					<div class="panel uibutton">command</div>
+					<div class="panel uibutton">communication</div>
+					<div class="panel uibutton">technology</div>
+					<div class="panel uibutton">science</div>
+					<div class="panel uibutton" onclick="onSupply()">supply</div>
+
+					<div class="eontitle">E0N v.0.1</div>
+
+				</div>
+
+				<div><!-- column -->		
+
+					<div id="supply" class="darkpanel collapse_y">
+
+						<div class="panel item resource">
+							<div>
+								<div>H<sub>2</sub>O</div>
+								<div class="subtext">200.000 m3</div>
+							</div>
+						</div>
+
+						<div class="panel item resource">
+							<div>
+								<div>H<sub>2</sub></div>
+								<div class="subtext">200.000 m3</div>
+							</div>
+						</div>
+
+						<div class="panel item resource">
+							<div>
+								<div>O<sub>2</sub></div>
+								<div class="subtext">200.000 m3</div>
+							</div>
+						</div>
+
+						<div class="panel item circular">
+							<div>
+								<div>Data</div>
+								<div class="subtext">planet analysis</div>
+							</div>
+						</div>
+
+						<div class="panel item tech">
+							<div>
+								<div>Tech</div>
+								<div class="subtext">warp drive</div>
+							</div>
+						</div>
+
+					</div><!-- darkpanel -->
+
+
+					<div id="trade" class="darkpanel collapse_y">
+					<div>
+						<div class="">trade request</div>
+
+						<div class="panel item sample">
+							<div>
+								<div>Sample</div>
+								<div class="subtext">unknown</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="panel uibutton">accept</div>
+							<div class="panel uibutton">decline</div>
+
+						<div>
+							
+						</div>
+						
+
+					</div>
+
+
+							<!-- </div> -->
+							
+					<div>
+						<ul id="actions"></ul>
+					</div>
+
+				</div><!-- column -->
+
+			</div> <!-- interface -->
+			
+		</div>
+
+
+
+		<script type="text/javascript">
+		document.oncontextmenu = function(){return false;}
+
+		var trade = document.getElementById("trade");
+		var supply = document.getElementById("supply");
+
+		function onTrade(){
+			pclick();
+			trade.classList.toggle('collapse_y');
+		}
+
+		function onSupply(){
+			pclick();
+			supply.classList.toggle('collapse_y');
+		}
+
+		</script>
+
+		<script type="text/javascript" src="js/postprocessing.js"></script>
+		<script type="text/javascript" src="js/webgl.js"></script>
+		<script type="text/javascript" src="js/extensions.js"></script>
+		<script type="text/javascript" src="js/mouse.js"></script>
+		<script type="text/javascript" src="js/starmap_controls.js"></script>
+
+		<script type="text/javascript" src="js/gen_textures.js"></script>
+		<script type="text/javascript" src="js/solarmap.js"></script>
+		<script type="text/javascript" src="js/starmap.js"></script>
+
+
+	</body> 
+
+</html>
