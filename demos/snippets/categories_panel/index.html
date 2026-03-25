@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Categories Panel</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --quicktag-accent: #00ff88;
+    --quicktag-blacklist: #ff4444;
+}
+
+body {
+    margin: 0;
+    background: #111;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #e0e0e0;
+}
+
+.panel {
+    position: relative;
+    width: 760px;
+    background: #2a2a2a;
+    padding: 22px 26px;
+    border-radius: 6px;
+}
+
+.cog {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 27px;
+    opacity: 0.8;
+}
+.cog:hover { opacity: 1; }
+
+/* CATEGORY DISPLAY */
+.row1, .row2 {
+    font-family: 'Montserrat Alternates', sans-serif;
+    letter-spacing: 1.2px;
+}
+
+.row1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.row2 {
+    font-size: 16px;
+    font-weight: 600;
+    opacity: 0.85;
+    margin-bottom: 10px;
+}
+
+.row3 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* CATEGORY STATES */
+.category {
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.category.active {
+    color: #fff;
+    text-shadow: 0 0 8px rgba(255,255,255,0.5);
+}
+
+.category.inactive {
+    color: #bbb;
+    opacity: 0.7;
+}
+
+.separator {
+    opacity: 0.5;
+}
+
+/* QUICKTAG STATES */
+.quicktag {
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 1px solid #000;
+    transition: all 0.2s ease;
+}
+
+.quicktag.active {
+    background: var(--quicktag-accent);
+    color: #00331c;
+    box-shadow: 0 0 10px rgba(0,255,136,0.45);
+}
+
+.quicktag.inactive {
+    background: transparent;
+    color: #aaa;
+    opacity: 0.5;
+}
+
+.quicktag.blacklisted {
+    background: #000;
+    color: var(--quicktag-blacklist);
+}
+
+/* SETTINGS PANEL */
+.settings { display: none; }
+
+.checkboxes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+.quick-tag-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.selected-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.quick-tags {
+    width: 50%;
+    position: relative;
+}
+
+.quick-tags input {
+    width: 100%;
+    padding: 7px;
+    background: #1a1a1a;
+    border: 1px solid #444;
+    color: #e0e0e0;
+    text-align: center;
+}
+
+.suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #1c1c1c;
+    border: 1px solid #444;
+    max-height: 150px;
+    overflow-y: auto;
+    display: none;
+    z-index: 20;
+}
+
+.suggestions div {
+    padding: 6px;
+    font-size: 12px;
+    cursor: pointer;
+}
+.suggestions div:hover { background: #333; }
+
+/* QUERY DISPLAY */
+.query-display {
+    width: 760px;
+    margin-top: 26px;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+    opacity: 0.9;
+}
+</style>
+</head>
+<body>
+
+<div class="panel">
+    <div class="cog" onclick="toggleSettings()">⚙</div>
+
+    <!-- MAIN PANEL -->
+    <div id="displayPanel">
+        <div class="row1" id="row1"></div>
+        <div class="row2" id="row2"></div>
+        <div class="row3" id="row3"></div>
+    </div>
+
+    <!-- SETTINGS PANEL -->
+    <div class="settings" id="settingsPanel">
+        <div class="checkboxes" id="categoryCheckboxes"></div>
+
+        <div class="quick-tag-area">
+            <div class="selected-tags" id="selectedTags"></div>
+            <div class="quick-tags">
+                <input id="tagInput" placeholder="Add quick tag…">
+                <div class="suggestions" id="suggestions"></div>
+            </div>
+        </div>
+
+        <button onclick="applySettings()">OK</button>
+    </div>
+</div>
+
+<div class="query-display" id="queryDisplay"></div>
+
+<script>
+const allCategories = [
+ "Everything","MMD","Koikatsu","Blender","AI",
+ "SFM","Virt-a-Mate","Honey Select","Uncategorized"
+];
+
+const allTags = [
+ "Anime","Blue Archive","Dance","Fantasy","Genshin Impact",
+ "Hyperdimension Neptunia","Loop","Motion","NSFW","Sci-Fi",
+ "Sex","Stylized","Vocaloid","Zenless Zero"
+];
+
+let activeCategory = "Everything";
+let enabledCategories = [...allCategories];
+let quickTags = [];
+let quickTagStates = {};
+
+function renderCategories() {
+    const split = [enabledCategories.slice(0,4), enabledCategories.slice(4)];
+    [row1,row2].forEach((row,i)=>{
+        row.innerHTML="";
+        split[i].forEach((cat,idx)=>{
+            const s=document.createElement("span");
+            s.className=`category ${cat===activeCategory?"active":"inactive"}`;
+            s.textContent=cat;
+            s.onclick=()=>{activeCategory=cat;updateQuery();renderCategories();};
+            row.appendChild(s);
+            if(idx<split[i].length-1){
+                const sep=document.createElement("span");
+                sep.className="separator";
+                sep.textContent=" | ";
+                row.appendChild(sep);
+            }
+        });
+    });
+}
+
+function cycleTag(tag){
+    const state = quickTagStates[tag] || "active";
+    quickTagStates[tag] =
+        state==="active" ? "inactive" :
+        state==="inactive" ? "blacklisted" : "active";
+    renderQuickTags();
+    updateQuery();
+}
+
+function renderQuickTags(){
+    row3.innerHTML="";
+    quickTags.forEach(tag=>{
+        const d=document.createElement("div");
+        d.className=`quicktag ${quickTagStates[tag]}`;
+        d.textContent=tag;
+        d.onclick=()=>cycleTag(tag);
+        row3.appendChild(d);
+    });
+}
+
+function updateQuery(){
+    const active = quickTags.filter(t=>quickTagStates[t]==="active");
+    const black = quickTags.filter(t=>quickTagStates[t]==="blacklisted");
+    queryDisplay.textContent = [
+        activeCategory,
+        ...active,
+        black.length ? `Exclude: ${black.join(", ")}` : ""
+    ].filter(Boolean).join(", ");
+}
+
+/* SETTINGS */
+function toggleSettings(){
+    displayPanel.style.display="none";
+    settingsPanel.style.display="block";
+}
+
+function applySettings(){
+    enabledCategories = [...document.querySelectorAll(".catCheck:checked")].map(c=>c.value);
+    if(!enabledCategories.includes(activeCategory)) {
+        activeCategory = enabledCategories[0] || "";
+    }
+    settingsPanel.style.display="none";
+    displayPanel.style.display="block";
+    renderCategories();
+    renderQuickTags();
+    updateQuery();
+}
+
+function setupCheckboxes(){
+    categoryCheckboxes.innerHTML="";
+    allCategories.forEach(cat=>{
+        const l=document.createElement("label");
+        l.innerHTML=`<input type="checkbox" class="catCheck" value="${cat}" ${enabledCategories.includes(cat)?"checked":""}> ${cat}`;
+        categoryCheckboxes.appendChild(l);
+    });
+}
+
+function showSuggestions(filter=""){
+    suggestions.innerHTML="";
+    allTags.filter(t=>t.toLowerCase().startsWith(filter)&&!quickTags.includes(t))
+        .slice(0,10).forEach(tag=>{
+            const d=document.createElement("div");
+            d.textContent=tag;
+            d.onclick=()=>addTag(tag);
+            suggestions.appendChild(d);
+        });
+    suggestions.style.display=suggestions.children.length?"block":"none";
+}
+
+function addTag(tag){
+    if(quickTags.length>=8) return;
+    quickTags.push(tag);
+    quickTagStates[tag]="active";
+    updateSelectedTags();
+    renderQuickTags();
+    updateQuery();
+    tagInput.value="";
+    suggestions.style.display="none";
+}
+
+function updateSelectedTags(){
+    selectedTags.innerHTML="";
+    quickTags.forEach(tag=>{
+        const d=document.createElement("div");
+        d.className="quicktag active";
+        d.textContent=tag;
+        d.onclick=()=>{
+            quickTags=quickTags.filter(t=>t!==tag);
+            delete quickTagStates[tag];
+            updateSelectedTags();
+            renderQuickTags();
+            updateQuery();
+        };
+        selectedTags.appendChild(d);
+    });
+}
+
+tagInput.addEventListener("focus",()=>showSuggestions(""));
+tagInput.addEventListener("input",()=>showSuggestions(tagInput.value.toLowerCase()));
+document.addEventListener("click",e=>{
+    if(!e.target.closest(".quick-tags")) suggestions.style.display="none";
+});
+
+setupCheckboxes();
+renderCategories();
+updateQuery();
+</script>
+
+</body>
+</html>
