@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Image Tagging</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #1b1b1b;
+      color: #e6e6e6;
+      display: flex;
+      justify-content: center;
+      padding-top: 20px;
+    }
+    .panel {
+      width: 480px;
+      background: #3f4650;
+      padding: 16px;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+    .top-bar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+    }
+    .modes {
+      display: flex;
+      gap: 6px;
+    }
+    .mode-btn {
+      padding: 6px 10px;
+      border-radius: 10px;
+      background: #2b3038;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .mode-btn.active {
+      background: #7fb7ff;
+      color: #0b223d;
+    }
+
+    /* Image / drop area */
+    .image-area {
+      width: 100%;
+      height: 320px;
+      border: 2px dashed #5f7fa3;
+      border-radius: 14px;
+      background: #2c3440;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin-bottom: 14px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .image-area.hover {
+      background: #32465f;
+      border-color: #7fb7ff;
+    }
+    .image-area span {
+      font-size: 13px;
+      opacity: 0.9;
+      text-align: center;
+    }
+    #imagePreview {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: none;
+    }
+
+    .box {
+      background: #353b44;
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 12px;
+    }
+    .box h3 {
+      margin: 0 0 6px 0;
+      font-size: 13px;
+      opacity: 0.8;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .tag {
+      background: #2c313a;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .tag.active {
+      background: #7fb7ff;
+      color: #0b223d;
+    }
+    .tag:hover {
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 rgba(127,183,255,0); }
+      50% { box-shadow: 0 0 8px rgba(127,183,255,0.6); }
+      100% { box-shadow: 0 0 0 rgba(127,183,255,0); }
+    }
+    .tag .count {
+      font-size: 11px;
+      opacity: 0.8;
+    }
+
+    .tag-input-wrapper {
+      position: relative;
+      margin-top: 12px;
+      display: flex;
+      justify-content: center;
+    }
+    input[type="text"] {
+      width: 50%;
+      padding: 8px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      background: #1f2329;
+      color: #e6e6e6;
+    }
+    .dropdown {
+      position: absolute;
+      top: 36px;
+      width: 50%;
+      background: #1f2329;
+      border-radius: 8px;
+      max-height: 150px;
+      overflow-y: auto;
+      display: none;
+      z-index: 10;
+    }
+    .dropdown div {
+      padding: 6px 10px;
+      cursor: pointer;
+    }
+    .dropdown div:hover {
+      background: #2c313a;
+    }
+
+    .creator-actions {
+      margin-top: 10px;
+      display: none;
+      gap: 10px;
+      justify-content: center;
+    }
+    .creator-actions button {
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background: #7fb7ff;
+      color: #0b223d;
+    }
+  </style>
+</head>
+<body>
+  <div class="panel">
+
+    <div class="top-bar">
+      <div class="modes">
+        <div class="mode-btn active" data-mode="user1">User 1</div>
+        <div class="mode-btn" data-mode="user2">User 2</div>
+        <div class="mode-btn" data-mode="creator">Creator</div>
+      </div>
+    </div>
+
+    <div class="image-area" id="dropArea">
+      <span id="dropText">Drop image here<br/>or click to browse</span>
+      <img id="imagePreview" />
+      <input type="file" id="imageUpload" accept="image/*" hidden />
+    </div>
+
+    <div class="box">
+      <h3>Tags</h3>
+      <div id="approvedTags" class="tags"></div>
+    </div>
+
+    <div class="box">
+      <h3>Suggested Tags</h3>
+      <div id="suggestedTags" class="tags"></div>
+    </div>
+
+    <div class="creator-actions" id="creatorActions">
+      <button id="acceptSelected">Accept</button>
+      <button id="acceptAll">Accept all</button>
+    </div>
+
+    <div class="tag-input-wrapper">
+      <input type="text" id="tagInput" placeholder="Add a tag..." />
+      <div id="dropdown" class="dropdown"></div>
+    </div>
+
+  </div>
+
+  <script>
+    const allTags = ['1girl','1boy','solo','smile','looking_at_viewer','blue_eyes','long_hair','short_hair','cat','dog','outdoors','indoors','sky','dress','shirt','weapon','fantasy','anime_style'];
+
+    let mode = 'user1';
+    let approved = new Set();
+    let suggested = {};
+    let userSuggested = { user1: new Set(), user2: new Set() };
+
+    const imageUpload = document.getElementById('imageUpload');
+    const dropArea = document.getElementById('dropArea');
+    const dropText = document.getElementById('dropText');
+    const imagePreview = document.getElementById('imagePreview');
+    const suggestedBox = document.getElementById('suggestedTags');
+    const approvedBox = document.getElementById('approvedTags');
+    const dropdown = document.getElementById('dropdown');
+    const tagInput = document.getElementById('tagInput');
+    const creatorActions = document.getElementById('creatorActions');
+
+    function handleFile(file) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        imagePreview.src = reader.result;
+        imagePreview.style.display = 'block';
+        dropText.style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    imageUpload.addEventListener('change', e => handleFile(e.target.files[0]));
+
+    dropArea.addEventListener('click', () => imageUpload.click());
+    dropArea.addEventListener('dragover', e => {
+      e.preventDefault();
+      dropArea.classList.add('hover');
+    });
+    dropArea.addEventListener('dragleave', () => dropArea.classList.remove('hover'));
+    dropArea.addEventListener('drop', e => {
+      e.preventDefault();
+      dropArea.classList.remove('hover');
+      handleFile(e.dataTransfer.files[0]);
+    });
+
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        mode = btn.dataset.mode;
+        creatorActions.style.display = mode === 'creator' ? 'flex' : 'none';
+        renderSuggested();
+      };
+    });
+
+    tagInput.addEventListener('focus', showDropdown);
+    tagInput.addEventListener('input', showDropdown);
+
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.tag-input-wrapper')) dropdown.style.display = 'none';
+    });
+
+    function showDropdown() {
+      const val = tagInput.value.toLowerCase();
+      dropdown.innerHTML = '';
+      allTags.filter(t => t.includes(val) && !approved.has(t)).forEach(tag => {
+        const div = document.createElement('div');
+        div.textContent = tag;
+        div.onclick = () => toggleSuggested(tag);
+        dropdown.appendChild(div);
+      });
+      dropdown.style.display = dropdown.children.length ? 'block' : 'none';
+    }
+
+    function toggleSuggested(tag) {
+      dropdown.style.display = 'none';
+      tagInput.value = '';
+      if (approved.has(tag)) return;
+
+      if (!suggested[tag]) suggested[tag] = { count: 0, selected: false };
+
+      if (mode !== 'creator') {
+        if (userSuggested[mode].has(tag)) {
+          userSuggested[mode].delete(tag);
+          suggested[tag].count--;
+          if (suggested[tag].count <= 0) delete suggested[tag];
+        } else {
+          userSuggested[mode].add(tag);
+          suggested[tag].count++;
+        }
+      }
+      renderSuggested();
+    }
+
+    function renderSuggested() {
+      suggestedBox.innerHTML = '';
+      Object.entries(suggested).forEach(([tag, data]) => {
+        if (approved.has(tag)) return;
+        const el = document.createElement('div');
+        el.className = 'tag';
+        el.innerHTML = tag;
+        if (data.count > 1) el.innerHTML += ` <span class="count">(${data.count})</span>`;
+
+        if (mode === 'creator') {
+          if (data.selected) {
+            el.classList.add('active');
+            el.innerHTML += ' ✓';
+          }
+          el.onclick = () => { data.selected = !data.selected; renderSuggested(); };
+        } else {
+          if (userSuggested[mode].has(tag)) el.classList.add('active');
+          el.onclick = () => toggleSuggested(tag);
+        }
+        suggestedBox.appendChild(el);
+      });
+    }
+
+    function renderApproved() {
+      approvedBox.innerHTML = '';
+      approved.forEach(tag => {
+        const el = document.createElement('div');
+        el.className = 'tag';
+        el.textContent = tag;
+        approvedBox.appendChild(el);
+      });
+    }
+
+    document.getElementById('acceptSelected').onclick = () => {
+      Object.entries(suggested).forEach(([tag, data]) => {
+        if (data.selected) approved.add(tag);
+      });
+      cleanup();
+    };
+
+    document.getElementById('acceptAll').onclick = () => {
+      Object.keys(suggested).forEach(tag => approved.add(tag));
+      cleanup();
+    };
+
+    function cleanup() {
+      Object.keys(suggested).forEach(tag => { if (approved.has(tag)) delete suggested[tag]; });
+      renderSuggested();
+      renderApproved();
+    }
+  </script>
+</body>
+</html>
